@@ -61,7 +61,7 @@ function updateTile(tile, num) {
     tile.classList.value = "";
     tile.classList.add("tile");
     if (num  > 0) {
-        tile.innerText = num;
+        tile.innerText = num.toString();
         if(num <= 4096) {
             tile.classList.add("t"+num.toString());
         } else {
