@@ -41,8 +41,9 @@ hr {
 }
 
 .button:hover {
-    background-color: #bbada0;
-    border: 5px solid #bbada0;
+    cursor: pointer;
+    background-color: #a09182;
+    border: 5px solid #a09182;
 }
 
 #score {
@@ -51,6 +52,41 @@ hr {
 
 #scores {
     color:#727371;
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200 ease-in-out;
+    border: 5px solid #555555;
+    border-radius: 8px;
+    z-index: 10;
+    background: #eee4da;
+    width: 200px;
+    color: #555555;
+}
+
+.popup.active{
+    transform: translate(-50%, -50%) scale(1);
+}
+
+#overlay {
+    position:fixed;
+    opacity: 0;
+    transition: 200ms ease-in-out;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(100, 100, 100, 0.5);
+    pointer-events: none;
+}
+
+#overlay.active {
+    opacity: 1;
+    pointer-events: all;
 }
 
 .tile {

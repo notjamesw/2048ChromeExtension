@@ -14,9 +14,8 @@ window.onload = function() {
 MODIFIES: board
 EFFECTS: starts the game, creates tile elements inside board div, and generates 2 tiles to start
 */
-function setGame() { 
-    let text = document.getElementById("gameOver");
-    text.style.visibility = "hidden";
+function setGame() {
+    closeEndScreen();
     board = [
         [0, 0, 0, 0],
         [0, 0, 0, 0],
@@ -45,8 +44,7 @@ MODIFIES: board, score
 EFFECTS: restarts the game by resetting board state and current game score
  */
 function reset() {
-    let text = document.getElementById("gameOver");
-    text.style.visibility = "hidden";
+    closeEndScreen();
     score = 0;
     board = [
         [0, 0, 0, 0],
@@ -237,7 +235,8 @@ If not:
 function generateTile() {
     if (!hasEmptyTile()) {
         if(isGameOver()) {
-            endGame();
+            displayEndScreen();
+            return;
         } else {
             return;
         }
@@ -309,14 +308,16 @@ function fullRow(row) {
 /*
 EFFECTS: displays a game over screen ontop of the board
 */ 
-function endGame() {
-    /*
-    let text = document.getElementById("gameOver");
-    text.innerText = "Game Over";
-    */
-    let text = document.getElementById("gameOver");
-    text.style.visibility = 'visible';
-    while(restart = false) {
+function displayEndScreen() {
+    let popup = document.getElementById('popup');
+    let overlay = document.getElementById('overlay');
+    popup.classList.add('active');
+    overlay.classList.add('active');
+}
 
-    }
+function closeEndScreen() {
+    let popup = document.getElementById('popup');
+    let overlay = document.getElementById('overlay');
+    popup.classList.remove('active');
+    overlay.classList.remove('active');
 }
