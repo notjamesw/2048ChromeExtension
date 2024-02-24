@@ -1,13 +1,20 @@
 var board; // 2D array for the board
-var score; // keeps track of current game score
-var highScore; // keeps track of highest game score
+var score = 0; // keeps track of current game score
+var highScore = 0; // keeps track of highest game score
 var size = 4; // size of the board (row/column)
 var restart;
 
 window.onload = function() {
-    score = 0;
-    highScore = 0;
     setGame();
+    setupButtons();
+
+    chrome.storage.sync.get(["highScore"]).then((result) => {
+        console.log("High score is" + result.highScore);
+        if(result.highScore != null) {
+            highScore = result.highScore;
+            document.getElementById("highscore").innerText = highScore;
+        }
+    });
 }
 
 /*
@@ -36,14 +43,13 @@ function setGame() {
 
     generateTile();
     generateTile();
-
 }
 
 /*
 MODIFIES: board, score
 EFFECTS: restarts the game by resetting board state and current game score
  */
-function reset() {
+function resetBoard() {
     closeEndScreen();
     score = 0;
     board = [
@@ -115,6 +121,10 @@ document.addEventListener('keyup', (e) => {
     }
     if(highScore < score) {
         highScore = score;
+        
+        chrome.storage.sync.set({"highScore": highScore}).then(() => {
+            console.log("Highscore is stored");
+        });
     }
     document.getElementById("score").innerText = score;
     document.getElementById("highscore").innerText = highScore;
@@ -320,4 +330,11 @@ function closeEndScreen() {
     let overlay = document.getElementById('overlay');
     popup.classList.remove('active');
     overlay.classList.remove('active');
+}
+
+function setupButtons() {
+    var buttons = document.getElementsByClassName("button");
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', resetBoard, false);
+    }
 }

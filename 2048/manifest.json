@@ -1,0 +1,12 @@
+{
+    "manifest_version": 3,
+    "name": "2048",
+    "description": "2048 Extension",
+    "version": "1.0",
+    "action": {
+      "default_popup": "index.html"
+    },
+    "permissions": [
+        "storage"
+    ]
+  }

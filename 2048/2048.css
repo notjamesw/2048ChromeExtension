@@ -9,10 +9,6 @@ h1 {
     font-size: 40px;
 }
 
-hr {
-    width: 500px;
-}
-
 #board {
     width: 398px;
     height: 398px;
@@ -50,7 +46,7 @@ hr {
     margin-right: 10px;
 }
 
-#scores {
+.scores {
     color:#727371;
 }
 
