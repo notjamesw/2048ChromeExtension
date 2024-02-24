@@ -8,10 +8,18 @@
     <script src = "2048.js"></script>
 </head>
 <body>
-    <h1>2048 Game</h1>
+    <h1>2048</h1>
     <hr>
-    <h2>Score: <span id = "score"> 0 </span></h2>
-    <div id = "board">
+    <h2>
+        <button class = "button", id = "newGame", onclick="reset()">New Game</button>
+        <div id = "scores">
+            Score: <span id = "score"> 0 </span> Best: <span id = "highscore"> 0 </span>
+        </div>
+    </h2>
+    <div class = "container">
+        <div id = "board">
+        </div>
+        <div id = "gameOver">Game Over</div>
     </div>
 </body>
 </html>

@@ -1,13 +1,22 @@
-var board;
-var score = 0;
-var size = 4;
+var board; // 2D array for the board
+var score; // keeps track of current game score
+var highScore; // keeps track of highest game score
+var size = 4; // size of the board (row/column)
+var restart;
 
 window.onload = function() {
+    score = 0;
+    highScore = 0;
     setGame();
 }
 
-function setGame() {
-
+/*
+MODIFIES: board
+EFFECTS: starts the game, creates tile elements inside board div, and generates 2 tiles to start
+*/
+function setGame() { 
+    let text = document.getElementById("gameOver");
+    text.style.visibility = "hidden";
     board = [
         [0, 0, 0, 0],
         [0, 0, 0, 0],
@@ -31,6 +40,46 @@ function setGame() {
 
 }
 
+/*
+MODIFIES: board, score
+EFFECTS: restarts the game by resetting board state and current game score
+ */
+function reset() {
+    let text = document.getElementById("gameOver");
+    text.style.visibility = "hidden";
+    score = 0;
+    board = [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0]
+    ]
+
+    clearBoard();
+    generateTile();
+    generateTile();
+    document.getElementById("score").innerText = score;
+}
+
+/*
+MODIFIES: board, score
+EFFECTS: helper for reset, clears the board state, updating every tile element
+ */
+function clearBoard() {
+    for(let r = 0; r < size; r++) {
+        for(let c = 0; c < size; c++) {
+            let tile = document.getElementById(r.toString() + "-" + c.toString());
+            let num = board[r][c];
+            updateTile(tile, num);
+        }
+    }
+}
+
+/*
+REQUIRES: num >= 0 
+MODIFIES: tile
+EFFECTS: updates a single tile element, setting the class element to its num
+*/
 function updateTile(tile, num) {
     tile.innerText = "";
     tile.classList.value = ""; //clear the classList
@@ -45,6 +94,10 @@ function updateTile(tile, num) {
     }
 }
 
+/*
+MODIFIES: board, score, highscore
+EFFECTS: keyboard event listener for keypresses, slides tiles and updates scores
+*/
 document.addEventListener('keyup', (e) => {
     if (e.code == "ArrowLeft" || e.code == "KeyA") {
         slideLeft();
@@ -62,13 +115,26 @@ document.addEventListener('keyup', (e) => {
         slideDown();
         generateTile();
     }
+    if(highScore < score) {
+        highScore = score;
+    }
     document.getElementById("score").innerText = score;
-})
+    document.getElementById("highscore").innerText = highScore;
+});
 
+/* 
+EFFECTS: removes all zeros from a list (row), helper for slide
+ */
 function removeZero(row){
     return row.filter(num => num != 0); //create new array of all nums != 0
 }
 
+/*
+REQUIRES: row is a list of numbers
+MODIFIES: row
+EFFECTS: merges elements from left to right in a list (row).
+helper for slideLeft, slideRight, slideUp, and slideDown.
+*/
 function slide(row) {
     row = removeZero(row);
     for (let i = 0; i < row.length-1; i++){
@@ -86,6 +152,10 @@ function slide(row) {
     return row;
 }
 
+/*
+MODIFIES: board
+EFFECTS: perform a slide left on the board, merging elements together if they have the same number 
+*/
 function slideLeft() {
     for (let r = 0; r < size; r++) {
         let row = board[r];
@@ -99,6 +169,10 @@ function slideLeft() {
     }
 }
 
+/*
+MODIFIES: board
+EFFECTS: perform a slide right on the board, merging elements together if they have the same number 
+*/
 function slideRight() {
     for (let r = 0; r < size; r++) {
         let row = board[r];         
@@ -113,6 +187,10 @@ function slideRight() {
     }
 }
 
+/*
+MODIFIES: board
+EFFECTS: perform a slide up on the board, merging elements together if they have the same number 
+*/
 function slideUp() {
     for (let c = 0; c < size; c++) {
         let row = [board[0][c], board[1][c], board[2][c], board[3][c]];
@@ -127,6 +205,10 @@ function slideUp() {
     }
 }
 
+/*
+MODIFIES: board
+EFFECTS: perform a slide down on the board, merging elements together if they have the same number 
+*/
 function slideDown() {
     for (let c = 0; c < size; c++) {
         let row = [board[0][c], board[1][c], board[2][c], board[3][c]];
@@ -143,9 +225,22 @@ function slideDown() {
     }
 }
 
+/*
+MODIFIES: board
+EFFECTS: check if the board is full, 
+If it is:
+    - check if there are no moves that can be made:
+        - if true, then end the game and show end screen
+If not:
+    - generate a new tile
+*/
 function generateTile() {
     if (!hasEmptyTile()) {
-        return;
+        if(isGameOver()) {
+            endGame();
+        } else {
+            return;
+        }
     }
     let found = false;
     while (!found) {
@@ -162,6 +257,10 @@ function generateTile() {
     }
 }
 
+/*
+EFFECTS: helper function for generateTile, checks if there are any empty tiles in the board.
+Returns true if there are any empty tiles, false otherwise.
+*/
 function hasEmptyTile() {
     for (let r = 0; r < size; r++) {
         for (let c = 0; c < size; c++) {
@@ -171,4 +270,53 @@ function hasEmptyTile() {
         }
     }
     return false;
+}
+
+/*
+EFFECTS: helper function for generateTile, checks if there are any possible moves remaining.
+Returns true if there are no possible moves, false otherwise.
+*/
+function isGameOver() {
+    for (let r = 0; r < size; r++) {
+        let row = board[r];
+        if(!fullRow(row)) {
+            return false;
+        }
+    }
+    for (let c = 0; c < size; c++) {
+        let column = [board[0][c], board[1][c], board[2][c], board[3][c]];
+        if(!fullRow(column)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/*
+EFFECTS: helper function for isGameOver, checks if the given list (row) is full and there are no 
+adjacent tiles with the same number.
+Returns true if there are no adjacent tiles with the same number, false otherwise.
+*/
+function fullRow(row) {
+    for (let i = 0; i < row.length-1; i++){
+        if (row[i] == row[i+1]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/*
+EFFECTS: displays a game over screen ontop of the board
+*/ 
+function endGame() {
+    /*
+    let text = document.getElementById("gameOver");
+    text.innerText = "Game Over";
+    */
+    let text = document.getElementById("gameOver");
+    text.style.visibility = 'visible';
+    while(restart = false) {
+
+    }
 }

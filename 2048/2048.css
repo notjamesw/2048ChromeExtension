@@ -3,13 +3,19 @@ body {
     text-align: center;
 }
 
+h1 {
+    color:#555555;
+    font-weight: bold;
+    font-size: 40px;
+}
+
 hr {
     width: 500px;
 }
 
 #board {
-    width: 400px;
-    height: 400px;
+    width: 398px;
+    height: 398px;
 
     background-color: #cdc1b5;
     border: 6px solid #bbada0;
@@ -17,6 +23,34 @@ hr {
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
+}
+
+/*New Game button*/
+.button {
+    border: 5px solid #cdc1b5;
+
+    font-size: 18px;
+    font-weight: bold;
+    justify-content: center;
+    
+    background-color: #cdc1b5;
+    color:white;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    transition-duration: 0.4s;
+}
+
+.button:hover {
+    background-color: #bbada0;
+    border: 5px solid #bbada0;
+}
+
+#score {
+    margin-right: 10px;
+}
+
+#scores {
+    color:#727371;
 }
 
 .tile {
@@ -30,7 +64,6 @@ hr {
     justify-content: center;
     align-items: center;
 }
-
 
 /* colored tiles */
 
