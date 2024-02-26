@@ -264,6 +264,14 @@ function generateTile() {
             found = true;
         }
     }
+    if (!hasEmptyTile()) {
+        if(isGameOver()) {
+            displayEndScreen();
+            return;
+        } else {
+            return;
+        }
+    }
 }
 
 /*
