@@ -9,7 +9,7 @@ I started this project initially motivated by the desire to learn about Chrome e
 - Game over translucent overlay screen with "new game" button
 - Data persistence, the highscore is kept with the Chrome storage API and carried over across games and browsers
 
-The Zip files contain the different versions of the 2048 extension, and the extension can be found on the Chrome web store through the link here: [https://chromewebstore.google.com/detail/2048/peckdagaipkndmdainakjgncbkhigafp](url)
+The Zip files contain the different versions of the 2048 extension, and the extension can be found on the Chrome web store through the link here: [2048 Extension](https://chromewebstore.google.com/detail/2048/peckdagaipkndmdainakjgncbkhigafp)
 
 ### Future Improvements:
 - Storing the current game state in cache, so closing the extension wouldn't restart the game
