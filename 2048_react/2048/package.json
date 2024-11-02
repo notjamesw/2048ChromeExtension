@@ -2,21 +2,23 @@
   "name": "2048",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
+  "dependencies": {,
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "^3.0.1",
     "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
+  },"scripts": {
+		"postinstall": "git config core.hooksPath .githooks",
+		"cover": "nyc --reporter text --reporter html yarn run test",
+		"build": "tsc && yarn prettier:check && yarn lint:check",
+		"test": "mocha --require ts-node/register --timeout 50000 --extension .spec.ts --recursive test",
+		"lint:check": "eslint src test --ext .ts",
+		"lint:fix": "eslint src test --ext .ts --fix",
+		"prettier:check": "prettier src/**/*.ts test/**/*.ts --check",
+		"prettier:fix": "prettier src/**/*.ts test/**/*.ts --write"
+	},
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -36,6 +38,7 @@
     ]
   },
   "devDependencies": {
+    "prettier": "^3.3.3",
     "tailwindcss": "^3.4.14"
   }
 }
