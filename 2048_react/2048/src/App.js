@@ -1,14 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
 import React, {useState} from 'react';
+import Board from './Board';
+import Leaderboard from './Leaderboard';
 
-function Scoreboard() {
-  const [currScore, setCurrScore] = useState(0);
-  const [highScore, setHighScore] = useState(0);
-
+function Scoreboard({currScore, highScore}) {
   return (
     <div className = "Scoreboard">
-      <div class = "flex items-center justify-center">
+      <div class = "flex items-center justify-center text-xl font-bold gap-2 text-gray mt-2">
         <h2>
           Score: {currScore}
         </h2>
@@ -20,8 +19,19 @@ function Scoreboard() {
   )
 }
 
-
 function App() {
+  const [isLeaderboardOpen, setLeaderboardOpen] = useState(false);
+  const [currScore, setCurrScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
+
+  const openLeaderboard = () => {
+    setLeaderboardOpen(true);
+  };
+
+  const closeLeaderboard = () => {
+    setLeaderboardOpen(false);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -31,8 +41,12 @@ function App() {
               <img
                 src = "/leaderboard_icon.png" 
                 alt = "leaderboard_icon"
+                onClick = {openLeaderboard}
                 class = "w-12 h-12 text-left p-1 rounded-lg bg-tan-100 border-2 border-tan-200">
               </img>
+              <Leaderboard
+                isOpen ={isLeaderboardOpen} 
+                onClose = {closeLeaderboard}/>
             </div>
             <div class = "flex justify-center mb-6">
               <h1 class = "text-5xl font-bold mx:auto text-zinc-600">
@@ -45,7 +59,14 @@ function App() {
               </button>
             </div>
             <div>
-              <Scoreboard/>
+              <Scoreboard currScore = {currScore} highScore = {highScore}/>
+            </div>
+            <div>
+              <Board
+                currScore = {currScore}
+                setCurrScore = {setCurrScore}
+                highScore = {highScore}
+                setHighScore = {setHighScore}/>
             </div>
           </div>
         </div>
