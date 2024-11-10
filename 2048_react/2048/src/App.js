@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
-import React, {useState} from 'react';
-import Board from './Board';
+import React, {useState, useRef} from 'react';
+import Board from './components/Board';
 import Leaderboard from './Leaderboard';
 
 function Scoreboard({currScore, highScore}) {
@@ -23,6 +23,7 @@ function App() {
   const [isLeaderboardOpen, setLeaderboardOpen] = useState(false);
   const [currScore, setCurrScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
+  const boardRef = useRef();
 
   const openLeaderboard = () => {
     setLeaderboardOpen(true);
@@ -54,7 +55,9 @@ function App() {
               </h1>
             </div>
             <div class = "flex justify-center">
-              <button class = "text-xl font-bold text-white rounded-lg border-tan-200 bg-tan-100 px-2 py-1">
+              <button 
+                class = "text-xl font-bold text-white rounded-lg border-tan-200 bg-tan-100 px-2 py-1"
+                onClick={this.boardRef.generateEmptyGrid()}>
                 New Game
               </button>
             </div>
@@ -66,7 +69,8 @@ function App() {
                 currScore = {currScore}
                 setCurrScore = {setCurrScore}
                 highScore = {highScore}
-                setHighScore = {setHighScore}/>
+                setHighScore = {setHighScore}
+                ref = {boardRef}/>
             </div>
           </div>
         </div>
