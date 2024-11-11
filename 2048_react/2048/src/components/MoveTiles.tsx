@@ -1,5 +1,7 @@
-function moveTiles(grid, direction, boardSize){
-    const newGrid = grid.map((g) => [...g]);
+import { TileObject } from "./Tile";
+
+function moveTiles(grid: TileObject[][], direction: string, boardSize: number){
+    const newGrid = grid.map((t) => [...t]);
     const updatedTiles = [];
 
     if (direction === "LEFT") {
